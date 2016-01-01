@@ -43,6 +43,8 @@ Each web service API acts independently in this library.  However, when configur
 ```javascript
 Facebook({"clientId": String, "appScope": Array<String>, "redirectUri": String, "authType": String});
 Google({"clientId": String, "appScope": Array<String>, "redirectUri": String});
+Imgur({"clientId": String, "redirectUri": String});
+Meetup({"clientId": String, "redirectUri": String});
 ```
 
 Each API call returns a promise.  The success callback will provide a response object and the error

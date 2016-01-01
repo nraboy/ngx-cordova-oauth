@@ -1,6 +1,7 @@
 /*
  * Angular 2 (ng2) Cordova Oauth
  * Created by Nic Raboy
+ * http://www.nraboy.com
  */
 
 export class CordovaOauth {

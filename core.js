@@ -5,3 +5,4 @@ __export(require("./oauth"));
 __export(require("./provider/facebook"));
 __export(require("./provider/google"));
 __export(require("./provider/imgur"));
+__export(require("./provider/meetup"));

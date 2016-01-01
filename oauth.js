@@ -1,6 +1,7 @@
 /*
  * Angular 2 (ng2) Cordova Oauth
  * Created by Nic Raboy
+ * http://www.nraboy.com
  */
 var CordovaOauth = (function () {
     function CordovaOauth(Provider, options) {
