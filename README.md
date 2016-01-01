@@ -60,6 +60,37 @@ As of Apache Cordova 5.0.0, the [whitelist plugin](https://blog.nraboy.com/2015/
 
 This library will **NOT** work with a web browser, ionic serve, or ionic view.  It **MUST** be used via installing to a device or simulator.
 
+## A Working Example
+
+```javascript
+import {App, Platform} from 'ionic/ionic';
+import {HomePage} from './pages/home/home';
+import {CordovaOauth, Facebook} from 'ng2-cordova-oauth/core';
+
+@App({
+    template: `
+        <ion-nav [root]="root"></ion-nav>
+        <ion-overlay></ion-overlay>
+    `,
+})
+
+export class MyApp {
+    constructor(platform: Platform) {
+        this.platform = platform;
+        this.root = HomePage;
+        this.cordovaOauth = new CordovaOauth(Facebook, {clientId: "CLIENT_ID_HERE", appScope: ["email"]});
+        this.platform.ready().then(() => {
+            this.cordovaOauth.login().then((success) => {
+                console.log(JSON.stringify(success));
+            }, (error) => {
+            alert(error);
+                console.log(error);
+            });
+        });
+    }
+
+}
+```
 
 ## Version History
 
