@@ -23,7 +23,7 @@ export interface IOauthProvider {
 
 export class OauthProvider {
 
-    login(options={}) {
+    login() {
         throw Error("login() not implimented for this provider");
     }
 

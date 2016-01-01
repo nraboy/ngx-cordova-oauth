@@ -30,10 +30,10 @@ This will install ng2-cordova-oauth and its dependencies.
 Once installed, you need to inject the library classes into every class in which you wish to use them.  For example, if you wish to use Facebook oauth in a particular class, it would look something like:
 
 ```javascript
-import {CordovaOauth, Facebook} from 'ng2-cordova-oauth/core';
+import {CordovaOauth, Facebook, Google} from 'ng2-cordova-oauth/core';
 ```
 
-At this point, ng2-cordova-oauth is installed into your project and is ready for use.
+Each provider will have it's own class.  At this point, ng2-cordova-oauth is installed into your project and is ready for use.
 
 
 ## Using ng2-cordova-oauth In Your Project
@@ -42,6 +42,7 @@ Each web service API acts independently in this library.  However, when configur
 
 ```javascript
 Facebook({"clientId": String, "appScope": Array<String>, "redirectUri": String, "authType": String});
+Google({"clientId": String, "appScope": Array<String>, "redirectUri": String});
 ```
 
 Each API call returns a promise.  The success callback will provide a response object and the error
@@ -83,7 +84,6 @@ export class MyApp {
             this.cordovaOauth.login().then((success) => {
                 console.log(JSON.stringify(success));
             }, (error) => {
-            alert(error);
                 console.log(error);
             });
         });

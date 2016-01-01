@@ -5,10 +5,10 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var oauth_1 = require("../oauth");
 var utility_1 = require("../utility");
-var PROVIDER_NAME = "Facebook";
-var Facebook = (function (_super) {
-    __extends(Facebook, _super);
-    function Facebook(options) {
+var PROVIDER_NAME = "Google";
+var Google = (function (_super) {
+    __extends(Google, _super);
+    function Google(options) {
         if (options === void 0) { options = {}; }
         _super.call(this);
         if (!options.clientId || options.clientId == "") {
@@ -17,21 +17,18 @@ var Facebook = (function (_super) {
         if (!options.appScope || options.appScope.length <= 0) {
             throw Error("A " + PROVIDER_NAME + " app scope must exist");
         }
-        this.facebookOptions = options;
-        this.facebookOptions.redirectUri = options.hasOwnProperty("redirectUri") ? options.redirectUri : "http://localhost/callback";
-        this.flowUrl = "https://www.facebook.com/v2.0/dialog/oauth?client_id=" + this.facebookOptions.clientId + "&redirect_uri=" + this.facebookOptions.redirectUri + "&response_type=token&scope=" + this.facebookOptions.appScope.join(",");
-        if (options !== undefined && options.hasOwnProperty("authType")) {
-            this.flowUrl += "&auth_type=" + options.authType;
-        }
+        this.googleOptions = options;
+        this.googleOptions.redirectUri = options.hasOwnProperty("redirectUri") ? options.redirectUri : "http://localhost/callback";
+        this.flowUrl = "https://accounts.google.com/o/oauth2/auth?client_id=" + this.googleOptions.clientId + "&redirect_uri=" + this.googleOptions.redirectUri + "&response_type=token&approval_prompt=force&scope=" + this.googleOptions.appScope.join(" ");
     }
-    Facebook.prototype.login = function () {
+    Google.prototype.login = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (window.cordova) {
                 if (window.cordova.InAppBrowser) {
                     var browserRef = window.cordova.InAppBrowser.open(_this.flowUrl, "_blank", "location=no,clearsessioncache=yes,clearcache=yes");
                     browserRef.addEventListener("loadstart", function (event) {
-                        if ((event.url).indexOf(_this.facebookOptions.redirectUri) === 0) {
+                        if ((event.url).indexOf(_this.googleOptions.redirectUri) === 0) {
                             browserRef.removeEventListener("exit", function (event) { });
                             browserRef.close();
                             var parsedResponse = (new utility_1.OauthUtility()).parseImplicitResponse(((event.url).split("#")[1]).split("&"));
@@ -56,6 +53,6 @@ var Facebook = (function (_super) {
             }
         });
     };
-    return Facebook;
+    return Google;
 })(oauth_1.OauthProvider);
-exports.Facebook = Facebook;
+exports.Google = Google;

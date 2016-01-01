@@ -15,7 +15,8 @@
         "apache cordova",
         "phonegap",
         "ionic framework",
-        "ionic 2"
+        "ionic 2",
+        "typescript"
     ],
     "license": "MIT",
     "scripts": {

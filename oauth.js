@@ -15,8 +15,7 @@ exports.CordovaOauth = CordovaOauth;
 var OauthProvider = (function () {
     function OauthProvider() {
     }
-    OauthProvider.prototype.login = function (options) {
-        if (options === void 0) { options = {}; }
+    OauthProvider.prototype.login = function () {
         throw Error("login() not implimented for this provider");
     };
     return OauthProvider;

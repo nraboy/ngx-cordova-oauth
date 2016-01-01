@@ -7,6 +7,7 @@ export interface IFacebookOptions {
 }
 export declare class Facebook extends OauthProvider {
     facebookOptions: IFacebookOptions;
+    flowUrl: String;
     constructor(options?: IFacebookOptions);
     login(): Promise<{}>;
 }

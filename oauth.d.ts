@@ -7,5 +7,5 @@ export interface IOauthProvider {
     new (options: Object): OauthProvider;
 }
 export declare class OauthProvider {
-    login(options?: {}): void;
+    login(): void;
 }
