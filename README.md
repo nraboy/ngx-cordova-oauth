@@ -20,8 +20,7 @@ ng2-cordova-oauth is an Angular 2 Apache Cordova Oauth library.  The purpose of 
 Once installed, you need to inject the library classes into every class in which you wish to use them.  For example, if you wish to use Facebook oauth in a particular class, it would look something like:
 
 ```javascript
-import {CordovaOauth} from 'ng2-cordova-oauth/oauth';
-import {Facebook} from 'ng2-cordova-oauth/provider/facebook';
+import {CordovaOauth, Facebook} from 'ng2-cordova-oauth/core';
 ```
 
 At this point, ng2-cordova-oauth is installed into your project and is ready for use.

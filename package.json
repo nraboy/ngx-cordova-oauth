@@ -22,6 +22,9 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "tsc": "tsc"
     },
+    "bugs": {
+        "url" : "https://github.com/nraboy/ng2-cordova-oauth/issues"
+    },
     "dependencies": {
         "angular2": "^2.0.0-beta.0",
         "systemjs": "^0.19.9",

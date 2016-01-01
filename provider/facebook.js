@@ -64,4 +64,3 @@ var Facebook = (function (_super) {
     return Facebook;
 })(oauth_1.OauthProvider);
 exports.Facebook = Facebook;
-//# sourceMappingURL=facebook.js.map

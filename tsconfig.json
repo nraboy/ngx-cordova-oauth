@@ -4,13 +4,14 @@
         "experimentalDecorators": true,
         "target": "es5",
         "module": "commonjs",
-        "sourceMap": true,
+        "sourceMap": false,
         "removeComments": false,
         "noImplicitAny": false,
         "declaration": true,
-        "outDir": "dist"
+        "outDir": "."
     },
     "files": [
+        "src/core.ts",
         "src/oauth.ts",
         "src/provider/facebook.ts",
         "node_modules/typescript/lib/lib.es6.d.ts"

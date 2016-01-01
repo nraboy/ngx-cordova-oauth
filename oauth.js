@@ -22,4 +22,3 @@ var OauthProvider = (function () {
     return OauthProvider;
 })();
 exports.OauthProvider = OauthProvider;
-//# sourceMappingURL=oauth.js.map
