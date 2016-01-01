@@ -4,3 +4,4 @@ function __export(m) {
 __export(require("./oauth"));
 __export(require("./provider/facebook"));
 __export(require("./provider/google"));
+__export(require("./provider/imgur"));

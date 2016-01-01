@@ -16,6 +16,7 @@
         "src/utility.ts",
         "src/provider/facebook.ts",
         "src/provider/google.ts",
+        "src/provider/imgur.ts",
         "node_modules/typescript/lib/lib.es6.d.ts"
     ],
     "exclude": [
