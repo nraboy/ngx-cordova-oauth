@@ -10,6 +10,11 @@
         "declaration": true,
         "outDir": "dist"
     },
+    "files": [
+        "src/oauth.ts",
+        "src/provider/facebook.ts",
+        "node_modules/typescript/lib/lib.es6.d.ts"
+    ],
     "exclude": [
         "node_modules"
     ]
