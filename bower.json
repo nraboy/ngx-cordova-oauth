@@ -1,7 +1,7 @@
 {
     "name": "ng2-cordova-oauth",
     "main": ["dist/**/*"],
-    "version": "0.0.1",
+    "version": "0.0.2",
     "homepage": "https://github.com/nraboy/ng2-cordova-oauth",
     "authors": [
         "Nic Raboy <http://www.nraboy.com>"
