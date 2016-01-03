@@ -1,4 +1,4 @@
-import { OauthProvider } from "../oauth";
+import { IOauthProvider } from "../oauth";
 import { OauthUtility } from "../utility";
 
 declare var window: any;
@@ -14,13 +14,12 @@ export interface IFacebookOptions {
     authType?: String;
 }
 
-export class Facebook extends OauthProvider {
+export class Facebook implements IOauthProvider {
 
     facebookOptions: IFacebookOptions;
     flowUrl: String;
 
     constructor(options: IFacebookOptions={}) {
-        super();
         if(!options.clientId || options.clientId == "") {
             throw Error("A " + PROVIDER_NAME + " client id must exist");
         }
@@ -37,30 +36,22 @@ export class Facebook extends OauthProvider {
 
     login() {
         return new Promise((resolve, reject) => {
-            if (window.cordova) {
-                if (window.cordova.InAppBrowser) {
-                    var browserRef = window.cordova.InAppBrowser.open(this.flowUrl, "_blank", "location=no,clearsessioncache=yes,clearcache=yes");
-                    browserRef.addEventListener("loadstart", (event) => {
-                        if ((event.url).indexOf(this.facebookOptions.redirectUri) === 0) {
-                            browserRef.removeEventListener("exit", (event) => {});
-                            browserRef.close();
-                            var parsedResponse = (new OauthUtility()).parseImplicitResponse(((event.url).split("#")[1]).split("&"));
-                            if (parsedResponse) {
-                                resolve(parsedResponse);
-                            } else {
-                                reject("Problem authenticating with " + PROVIDER_NAME);
-                            }
-                        }
-                    });
-                    browserRef.addEventListener("exit", function(event) {
-                        reject("The " + PROVIDER_NAME + " sign in flow was canceled");
-                    });
-                } else {
-                    reject("The Apache Cordova InAppBrowser plugin was not found and is required");
+            var browserRef = window.cordova.InAppBrowser.open(this.flowUrl, "_blank", "location=no,clearsessioncache=yes,clearcache=yes");
+            browserRef.addEventListener("loadstart", (event) => {
+                if ((event.url).indexOf(this.facebookOptions.redirectUri) === 0) {
+                    browserRef.removeEventListener("exit", (event) => {});
+                    browserRef.close();
+                    var parsedResponse = (new OauthUtility()).parseImplicitResponse(((event.url).split("#")[1]).split("&"));
+                    if (parsedResponse) {
+                        resolve(parsedResponse);
+                    } else {
+                        reject("Problem authenticating with " + PROVIDER_NAME);
+                    }
                 }
-            } else {
-                reject("Cannot authenticate with " + PROVIDER_NAME + " via a web browser");
-            }
+            });
+            browserRef.addEventListener("exit", function(event) {
+                reject("The " + PROVIDER_NAME + " sign in flow was canceled");
+            });
         });
     }
 

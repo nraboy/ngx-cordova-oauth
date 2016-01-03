@@ -51,7 +51,7 @@ Each API call returns a promise.  The success callback will provide a response o
 callback will return a string.
 
 ```javascript
-this.cordovaOauth = new CordovaOauth(Facebook, {clientId: "CLIENT_ID_HERE", appScope: ["email"]});
+this.cordovaOauth = new CordovaOauth(new Facebook({clientId: "CLIENT_ID_HERE", appScope: ["email"]}));
 this.cordovaOauth.login().then((success) => {
     console.log(JSON.stringify(success));
 }, (error) => {
@@ -81,7 +81,7 @@ export class MyApp {
     constructor(platform: Platform) {
         this.platform = platform;
         this.root = HomePage;
-        this.cordovaOauth = new CordovaOauth(Facebook, {clientId: "CLIENT_ID_HERE", appScope: ["email"]});
+        this.cordovaOauth = new CordovaOauth(new Facebook({clientId: "CLIENT_ID_HERE", appScope: ["email"]}));
         this.platform.ready().then(() => {
             this.cordovaOauth.login().then((success) => {
                 console.log(JSON.stringify(success));

@@ -1,11 +1,8 @@
 export declare class CordovaOauth {
-    _provider: OauthProvider;
-    constructor(Provider: IOauthProvider, options: any);
-    login(): void;
+    _provider: IOauthProvider;
+    constructor(provider: IOauthProvider);
+    login(): Promise<{}>;
 }
 export interface IOauthProvider {
-    new (options: Object): OauthProvider;
-}
-export declare class OauthProvider {
-    login(): void;
+    login(): Promise<Object>;
 }

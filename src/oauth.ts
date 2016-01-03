@@ -4,28 +4,43 @@
  * http://www.nraboy.com
  */
 
+declare var window: any;
+
+/*
+ * The main driver class for connections to each of the providers.
+ */
 export class CordovaOauth {
 
-    _provider: OauthProvider;
+    _provider: IOauthProvider;
 
-    constructor(Provider: IOauthProvider, options) {
-        this._provider = new Provider(options);
+    constructor(provider: IOauthProvider) {
+        this._provider = provider;
     }
 
     login() {
-        return this._provider.login();
+        return new Promise((resolve, reject) => {
+            if (window.cordova) {
+                if (window.cordova.InAppBrowser) {
+                    this._provider.login().then((success) => {
+                        resolve(success);
+                    }, (error) => {
+                        reject(error);
+                    });
+                } else {
+                    reject("The Apache Cordova InAppBrowser plugin was not found and is required");
+                }
+            } else {
+                reject("Cannot authenticate via a web browser");
+            }
+        });
     }
 
 }
 
+/*
+ * All providers must have the functions and variables that exist in this interface.  Keeps
+ * consistency between the providers.
+ */
 export interface IOauthProvider {
-    new (options: Object): OauthProvider;
-}
-
-export class OauthProvider {
-
-    login() {
-        throw Error("login() not implimented for this provider");
-    }
-
+    login(): Promise<Object>;
 }

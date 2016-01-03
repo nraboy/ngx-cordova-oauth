@@ -3,22 +3,33 @@
  * Created by Nic Raboy
  * http://www.nraboy.com
  */
+/*
+ * The main driver class for connections to each of the providers.
+ */
 var CordovaOauth = (function () {
-    function CordovaOauth(Provider, options) {
-        this._provider = new Provider(options);
+    function CordovaOauth(provider) {
+        this._provider = provider;
     }
     CordovaOauth.prototype.login = function () {
-        return this._provider.login();
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (window.cordova) {
+                if (window.cordova.InAppBrowser) {
+                    _this._provider.login().then(function (success) {
+                        resolve(success);
+                    }, function (error) {
+                        reject(error);
+                    });
+                }
+                else {
+                    reject("The Apache Cordova InAppBrowser plugin was not found and is required");
+                }
+            }
+            else {
+                reject("Cannot authenticate via a web browser");
+            }
+        });
     };
     return CordovaOauth;
 })();
 exports.CordovaOauth = CordovaOauth;
-var OauthProvider = (function () {
-    function OauthProvider() {
-    }
-    OauthProvider.prototype.login = function () {
-        throw Error("login() not implimented for this provider");
-    };
-    return OauthProvider;
-})();
-exports.OauthProvider = OauthProvider;

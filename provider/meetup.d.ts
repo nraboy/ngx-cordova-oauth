@@ -1,9 +1,9 @@
-import { OauthProvider } from "../oauth";
+import { IOauthProvider } from "../oauth";
 export interface IMeetupOptions {
     clientId?: String;
     redirectUri?: String;
 }
-export declare class Meetup extends OauthProvider {
+export declare class Meetup implements IOauthProvider {
     meetupOptions: IMeetupOptions;
     flowUrl: String;
     constructor(options?: IMeetupOptions);
