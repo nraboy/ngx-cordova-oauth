@@ -1,3 +1,4 @@
+"use strict";
 var utility_1 = require("../utility");
 var PROVIDER_NAME = "Google";
 var Google = (function () {
@@ -36,5 +37,5 @@ var Google = (function () {
         });
     };
     return Google;
-})();
+}());
 exports.Google = Google;

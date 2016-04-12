@@ -1,3 +1,4 @@
+"use strict";
 var OauthUtility = (function () {
     function OauthUtility() {
     }
@@ -14,5 +15,5 @@ var OauthUtility = (function () {
         }
     };
     return OauthUtility;
-})();
+}());
 exports.OauthUtility = OauthUtility;

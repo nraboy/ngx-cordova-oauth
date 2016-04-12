@@ -120,4 +120,4 @@ Angular 2 - [https://www.angular.io](https://www.angular.io)
 
 Apache Cordova - [http://cordova.apache.org](http://cordova.apache.org)
 
-Nic Raboy's Code Blog - [https://blog.nraboy.com](https://blog.nraboy.com)
+Nic Raboy's Code Blog - [https://www.thepolyglotdeveloper.com](https://www.thepolyglotdeveloper.com)

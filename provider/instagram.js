@@ -1,3 +1,4 @@
+"use strict";
 var utility_1 = require("../utility");
 var PROVIDER_NAME = "Instagram";
 var Instagram = (function () {
@@ -38,5 +39,5 @@ var Instagram = (function () {
         });
     };
     return Instagram;
-})();
+}());
 exports.Instagram = Instagram;

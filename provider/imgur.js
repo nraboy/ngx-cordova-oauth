@@ -1,3 +1,4 @@
+"use strict";
 var utility_1 = require("../utility");
 var PROVIDER_NAME = "Imgur";
 var Imgur = (function () {
@@ -33,5 +34,5 @@ var Imgur = (function () {
         });
     };
     return Imgur;
-})();
+}());
 exports.Imgur = Imgur;

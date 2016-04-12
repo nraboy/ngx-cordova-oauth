@@ -1,3 +1,4 @@
+"use strict";
 var utility_1 = require("../utility");
 var PROVIDER_NAME = "Facebook";
 var Facebook = (function () {
@@ -39,5 +40,5 @@ var Facebook = (function () {
         });
     };
     return Facebook;
-})();
+}());
 exports.Facebook = Facebook;

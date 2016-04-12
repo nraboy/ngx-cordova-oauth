@@ -1,3 +1,4 @@
+"use strict";
 var utility_1 = require("../utility");
 var PROVIDER_NAME = "Meetup";
 var Meetup = (function () {
@@ -33,5 +34,5 @@ var Meetup = (function () {
         });
     };
     return Meetup;
-})();
+}());
 exports.Meetup = Meetup;
