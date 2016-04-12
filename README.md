@@ -44,6 +44,7 @@ Each web service API acts independently in this library.  However, when configur
 Facebook({"clientId": String, "appScope": Array<String>, "redirectUri": String, "authType": String});
 Google({"clientId": String, "appScope": Array<String>, "redirectUri": String});
 Imgur({"clientId": String, "redirectUri": String});
+Instagram({"clientId": String, "appScope": Array<String>, "redirectUri": String});
 Meetup({"clientId": String, "redirectUri": String});
 ```
 
