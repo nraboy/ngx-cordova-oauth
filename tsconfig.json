@@ -19,6 +19,7 @@
         "src/provider/imgur.ts",
         "src/provider/instagram.ts",
         "src/provider/meetup.ts",
+        "src/provider/spotify.ts",
         "node_modules/typescript/lib/lib.es6.d.ts"
     ],
     "exclude": [
