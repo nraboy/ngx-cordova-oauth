@@ -38,10 +38,7 @@ export class Spotify implements IOauthProvider {
         this.spotifyOptions.responseType = options.hasOwnProperty("responseType") ? options.responseType : "token";
         this.spotifyOptions.showDialog = options.hasOwnProperty("showDialog") ? options.showDialog : "true";
 
-        //this.flowUrl = "https://api.instagram.com/oauth/authorize?client_id=" + this.instagramOptions.clientId + "&redirect_uri=" + this.instagramOptions.redirectUri + scope + "&response_type=" + this.instagramOptions.responseType;
         this.flowUrl = "https://accounts.spotify.com/authorize?client_id=" + this.spotifyOptions.clientId + '&redirect_uri=' + this.spotifyOptions.redirectUri + '&response_type=' + this.spotifyOptions.responseType + scope +'&show_dialog=' + this.spotifyOptions.showDialog;
-
-        console.log(this.flowUrl);
 
     }
 
@@ -53,7 +50,6 @@ export class Spotify implements IOauthProvider {
                     browserRef.removeEventListener("exit", (event) => {});
                     browserRef.close();
 
-                    //var parsedResponse = (new OauthUtility()).parseImplicitResponse(((event.url).split("#")[1]).split("&"));
                     var splitChar = (this.spotifyOptions.responseType === "code") ? "?" : "#";
 
                     var callbackResponse = (event.url).split(splitChar)[1];
