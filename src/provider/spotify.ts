@@ -14,7 +14,6 @@ const PROVIDER_NAME = "Spotify";
 export interface ISpotifyOptions {
     clientId?: String;
     responseType?:String;
-    showDialog?:String;
     appScope?: Array<String>;
     redirectUri?: String;
 }
@@ -36,9 +35,8 @@ export class Spotify implements IOauthProvider {
         this.spotifyOptions = options;
         this.spotifyOptions.redirectUri = options.hasOwnProperty("redirectUri") ? options.redirectUri : "http://localhost/callback";
         this.spotifyOptions.responseType = options.hasOwnProperty("responseType") ? options.responseType : "token";
-        this.spotifyOptions.showDialog = options.hasOwnProperty("showDialog") ? options.showDialog : "true";
 
-        this.flowUrl = "https://accounts.spotify.com/authorize?client_id=" + this.spotifyOptions.clientId + '&redirect_uri=' + this.spotifyOptions.redirectUri + '&response_type=' + this.spotifyOptions.responseType + scope +'&show_dialog=' + this.spotifyOptions.showDialog;
+        this.flowUrl = "https://accounts.spotify.com/authorize?client_id=" + this.spotifyOptions.clientId + '&redirect_uri=' + this.spotifyOptions.redirectUri + '&response_type=' + this.spotifyOptions.responseType + scope;
 
     }
 
