@@ -3,7 +3,6 @@
  * Created by Nic Raboy
  * http://www.nraboy.com
  */
-"use strict";
 /*
  * The main driver class for connections to each of the providers.
  */
@@ -32,5 +31,5 @@ var CordovaOauth = (function () {
         });
     };
     return CordovaOauth;
-}());
+})();
 exports.CordovaOauth = CordovaOauth;

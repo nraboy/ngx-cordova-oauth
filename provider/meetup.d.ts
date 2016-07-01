@@ -1,11 +1,9 @@
-import { IOauthProvider } from "../oauth";
-export interface IMeetupOptions {
-    clientId?: String;
-    redirectUri?: String;
+import { OAuthProvider, IOAuthOptions } from "../provider";
+export interface IMeetupOptions extends IOAuthOptions {
 }
-export declare class Meetup implements IOauthProvider {
-    meetupOptions: IMeetupOptions;
-    flowUrl: String;
+export declare class Meetup extends OAuthProvider {
+    options: IMeetupOptions;
+    protected authUrl: string;
+    protected defaults: Object;
     constructor(options?: IMeetupOptions);
-    login(): Promise<{}>;
 }
