@@ -13,8 +13,8 @@ export declare class OAuthProvider implements IOauthProvider {
     protected defaults: Object;
     constructor(options?: IOAuthOptions);
     name: string;
-    login(config: any, browserOptions?: Object): Promise<{}>;
-    protected serializeBrowserOptions(options: Object): string;
+    parseResponseInUrl(url: any): Object;
+    dialogUrl(): string;
     protected optionsToDialogUrl(options: any): string;
     protected serializeAppScope(scope: any): any;
     protected isValid(response: any): any;

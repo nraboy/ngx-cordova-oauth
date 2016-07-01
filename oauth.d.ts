@@ -1,8 +1,9 @@
+import { OAuthProvider } from './provider';
 export declare class CordovaOauth {
-    _provider: IOauthProvider;
-    constructor(provider: IOauthProvider);
-    login(config: any, browserOptions: any): Promise<{}>;
+    login(provider: OAuthProvider, browserOptions?: Object): Promise<{}>;
+    logInVia(provider: OAuthProvider, browserOptions?: Object): Promise<{}>;
+    protected serializeBrowserOptions(options: Object): string;
 }
 export interface IOauthProvider {
-    login(options: Object, browserOptions?: Object): Promise<Object>;
+    parseResponseInUrl(url: string): Object;
 }
