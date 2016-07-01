@@ -1,13 +1,11 @@
-import { IOauthProvider } from "../oauth";
-export interface IFacebookOptions {
-    clientId?: String;
-    appScope?: Array<String>;
-    redirectUri?: String;
-    authType?: String;
+import { OAuthProvider, IOAuthOptions } from "../provider";
+export interface IFacebookOptions extends IOAuthOptions {
+    authType?: string;
 }
-export declare class Facebook implements IOauthProvider {
-    facebookOptions: IFacebookOptions;
-    flowUrl: String;
+export declare class Facebook extends OAuthProvider {
+    options: IFacebookOptions;
+    protected authUrl: string;
+    protected defaults: Object;
     constructor(options?: IFacebookOptions);
-    login(): Promise<{}>;
+    protected optionsToDialogUrl(options: any): string;
 }

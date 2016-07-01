@@ -1,13 +1,10 @@
-import { IOauthProvider } from "../oauth";
-export interface IInstagramOptions {
-    clientId?: String;
-    appScope?: Array<String>;
-    redirectUri?: String;
-    responseType?: String;
+import { OAuthProvider, IOAuthOptions } from "../provider";
+export interface IInstagramOptions extends IOAuthOptions {
 }
-export declare class Instagram implements IOauthProvider {
-    instagramOptions: IInstagramOptions;
-    flowUrl: String;
+export declare class Instagram extends OAuthProvider {
+    options: IInstagramOptions;
+    protected authUrl: string;
+    protected APP_SCOPE_DELIMITER: string;
+    protected defaults: Object;
     constructor(options?: IInstagramOptions);
-    login(): Promise<{}>;
 }

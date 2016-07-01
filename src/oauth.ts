@@ -42,5 +42,5 @@ export class CordovaOauth {
  * consistency between the providers.
  */
 export interface IOauthProvider {
-    login(): Promise<Object>;
+    login(options?: Object): Promise<Object>;
 }

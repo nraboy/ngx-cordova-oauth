@@ -1,3 +1,4 @@
-export declare class OauthUtility {
-    parseImplicitResponse(responseParameters: Array<String>): Object;
-}
+export declare const utils: {
+    parseQueryString(url: string): Object;
+    defaults(target: Object, ...sources: Object[]): Object;
+};
