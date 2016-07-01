@@ -8,3 +8,4 @@ __export(require("./provider/google"));
 __export(require("./provider/imgur"));
 __export(require("./provider/instagram"));
 __export(require("./provider/meetup"));
+__export(require("./provider/linkedin"));
