@@ -11,12 +11,12 @@ var CordovaOauth = (function () {
     function CordovaOauth(provider) {
         this._provider = provider;
     }
-    CordovaOauth.prototype.login = function () {
+    CordovaOauth.prototype.login = function (config, browserOptions) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (window.cordova) {
                 if (window.cordova.InAppBrowser) {
-                    _this._provider.login().then(function (success) {
+                    _this._provider.login(config, browserOptions).then(function (success) {
                         resolve(success);
                     }, function (error) {
                         reject(error);

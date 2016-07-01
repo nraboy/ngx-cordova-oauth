@@ -15,6 +15,12 @@ const DEFAULTS = {
   redirectUri: 'http://localhost/callback'
 };
 
+const DEFAULT_BROWSER_OPTIONS = {
+  location: 'no',
+  clearsessioncache: 'yes',
+  clearcache: 'yes'
+};
+
 export class OAuthProvider implements IOauthProvider {
     options: IOAuthOptions;
     protected APP_SCOPE_DELIMITER: string = ',';
@@ -29,7 +35,7 @@ export class OAuthProvider implements IOauthProvider {
         return this.constructor.name || this.authUrl;
     }
 
-    login(config) {
+    login(config, browserOptions: Object = {}) {
         const options = config || this.options;
 
         if (!options.clientId) {
@@ -37,10 +43,12 @@ export class OAuthProvider implements IOauthProvider {
         }
 
         const url = this.optionsToDialogUrl(options);
+        const windowParams = this.serializeBrowserOptions(
+          utils.defaults(browserOptions, DEFAULT_BROWSER_OPTIONS)
+        );
 
         return new Promise((resolve, reject) => {
-            const browserRef = window.cordova.InAppBrowser
-                .open(url, '_blank', 'location=no,clearsessioncache=yes,clearcache=yes');
+            const browserRef = window.cordova.InAppBrowser.open(url, '_blank', windowParams);
             const exitListener = () => reject(`The "${this.name}" sign in flow was canceled`);
 
             browserRef.addEventListener('loadstart', (event) => {
@@ -61,6 +69,18 @@ export class OAuthProvider implements IOauthProvider {
             })
             browserRef.addEventListener('exit', exitListener);
         })
+    }
+
+    protected serializeBrowserOptions(options: Object) {
+      const chunks = [];
+
+      for (const prop in options) {
+        if (options.hasOwnProperty(prop)) {
+          chunks.push(`${prop}=${options[prop]}`);
+        }
+      }
+
+      return chunks.join(',');
     }
 
     protected optionsToDialogUrl(options: any): string {
