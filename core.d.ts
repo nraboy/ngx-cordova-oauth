@@ -4,4 +4,3 @@ export * from "./provider/google";
 export * from "./provider/imgur";
 export * from "./provider/instagram";
 export * from "./provider/meetup";
-export * from "./provider/spotify";

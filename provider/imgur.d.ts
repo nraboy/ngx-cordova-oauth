@@ -1,11 +1,9 @@
-import { IOauthProvider } from "../oauth";
-export interface IImgurOptions {
-    clientId?: String;
-    redirectUri?: String;
+import { OAuthProvider, IOAuthOptions } from "../provider";
+export interface IImgurOptions extends IOAuthOptions {
 }
-export declare class Imgur implements IOauthProvider {
-    imgurOptions: IImgurOptions;
-    flowUrl: String;
+export declare class Imgur extends OAuthProvider {
+    options: IImgurOptions;
+    protected authUrl: string;
+    protected defaults: Object;
     constructor(options?: IImgurOptions);
-    login(): Promise<{}>;
 }

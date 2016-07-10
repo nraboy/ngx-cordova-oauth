@@ -1,41 +1,27 @@
 "use strict";
-var utility_1 = require("../utility");
-var PROVIDER_NAME = "Google";
-var Google = (function () {
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var provider_1 = require("../provider");
+var Google = (function (_super) {
+    __extends(Google, _super);
     function Google(options) {
         if (options === void 0) { options = {}; }
-        if (!options.clientId || options.clientId == "") {
-            throw Error("A " + PROVIDER_NAME + " client id must exist");
-        }
+        _super.call(this, options);
+        this.authUrl = 'https://accounts.google.com/o/oauth2/auth';
+        this.APP_SCOPE_DELIMITER = ' ';
+        this.defaults = {
+            responseType: 'token'
+        };
         if (!options.appScope || options.appScope.length <= 0) {
-            throw Error("A " + PROVIDER_NAME + " app scope must exist");
+            throw new Error("A " + this.name + " app scope must exist");
         }
-        this.googleOptions = options;
-        this.googleOptions.redirectUri = options.hasOwnProperty("redirectUri") ? options.redirectUri : "http://localhost/callback";
-        this.flowUrl = "https://accounts.google.com/o/oauth2/auth?client_id=" + this.googleOptions.clientId + "&redirect_uri=" + this.googleOptions.redirectUri + "&response_type=token&approval_prompt=force&scope=" + this.googleOptions.appScope.join(" ");
     }
-    Google.prototype.login = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var browserRef = window.cordova.InAppBrowser.open(_this.flowUrl, "_blank", "location=no,clearsessioncache=yes,clearcache=yes");
-            browserRef.addEventListener("loadstart", function (event) {
-                if ((event.url).indexOf(_this.googleOptions.redirectUri) === 0) {
-                    browserRef.removeEventListener("exit", function (event) { });
-                    browserRef.close();
-                    var parsedResponse = (new utility_1.OauthUtility()).parseImplicitResponse(((event.url).split("#")[1]).split("&"));
-                    if (parsedResponse) {
-                        resolve(parsedResponse);
-                    }
-                    else {
-                        reject("Problem authenticating with " + PROVIDER_NAME);
-                    }
-                }
-            });
-            browserRef.addEventListener("exit", function (event) {
-                reject("The " + PROVIDER_NAME + " sign in flow was canceled");
-            });
-        });
+    Google.prototype.optionsToDialogUrl = function (options) {
+        return _super.prototype.optionsToDialogUrl.call(this, options) + '&approval_prompt=force';
     };
     return Google;
-}());
+}(provider_1.OAuthProvider));
 exports.Google = Google;

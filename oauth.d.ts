@@ -4,5 +4,5 @@ export declare class CordovaOauth {
     login(): Promise<{}>;
 }
 export interface IOauthProvider {
-    login(): Promise<Object>;
+    login(options?: Object): Promise<Object>;
 }
