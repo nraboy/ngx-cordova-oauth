@@ -8,7 +8,7 @@
     },
     "homepage": "https://blog.nraboy.com",
     "devDependencies": {
-        "tsc": "^1.20150623.0"
+        "typescript": "^1.7.5"
     },
     "keywords": [
         "angular 2",
@@ -26,10 +26,5 @@
     },
     "bugs": {
         "url": "https://github.com/nraboy/ng2-cordova-oauth/issues"
-    },
-    "dependencies": {
-        "angular2": "^2.0.0-beta.0",
-        "systemjs": "^0.19.9",
-        "typescript": "^1.7.5"
     }
 }
