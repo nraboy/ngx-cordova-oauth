@@ -4,6 +4,7 @@ export interface IOAuthOptions {
     appScope?: string[];
     redirectUri?: string;
     responseType?: string;
+    state?: string;
 }
 export declare class OAuthProvider implements IOauthProvider {
     options: IOAuthOptions;

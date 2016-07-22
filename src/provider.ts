@@ -8,6 +8,7 @@ export interface IOAuthOptions {
     appScope?: string[];
     redirectUri?: string;
     responseType?: string;
+    state?: string;
 }
 
 const DEFAULTS = {

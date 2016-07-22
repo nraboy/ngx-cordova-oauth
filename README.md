@@ -46,10 +46,12 @@ Google({"clientId": String, "appScope": Array<String>, "redirectUri": String});
 Imgur({"clientId": String, "redirectUri": String});
 Instagram({"clientId": String, "appScope": Array<String>, "redirectUri": String});
 Meetup({"clientId": String, "redirectUri": String});
+LinkedIn({"clientId": String, "appScope": Array<String>, "state": String, "redirectUri": String});
 ```
 
 Each API call returns a promise.  The success callback will provide a response object and the error
-callback will return a string.
+callback will return a string.  Not all providers use implicit grants.  Any provider that uses an explicit grant will return a `code` rather than an `access_token`.  The `code` must be
+further exchanged server side for an `access_token`.  This is for the safety of your users.
 
 ```javascript
 this.cordovaOauth = new CordovaOauth(new Facebook({clientId: "CLIENT_ID_HERE", appScope: ["email"]}));
@@ -67,27 +69,26 @@ This library will **NOT** work with a web browser, ionic serve, or ionic view.  
 ## A Working Example
 
 ```javascript
-import {App, Platform} from 'ionic/ionic';
-import {HomePage} from './pages/home/home';
-import {CordovaOauth, Facebook} from 'ng2-cordova-oauth/core';
+import {Component} from '@angular/core';
+import {NavController, Platform} from 'ionic-angular';
+import {CordovaOauth, Facebook, Google, LinkedIn} from "ng2-cordova-oauth/core";
 
-@App({
-    template: `
-        <ion-nav [root]="root"></ion-nav>
-        <ion-overlay></ion-overlay>
-    `,
+@Component({
+    templateUrl: 'build/pages/home/home.html'
 })
+export class HomePage {
 
-export class MyApp {
-    constructor(platform: Platform) {
-        this.platform = platform;
-        this.root = HomePage;
+    private cordovaOauth: CordovaOauth;
+
+    constructor(private navCtrl: NavController, private platform: Platform) { }
+
+    public facebook() {
         this.cordovaOauth = new CordovaOauth(new Facebook({clientId: "CLIENT_ID_HERE", appScope: ["email"]}));
         this.platform.ready().then(() => {
-            this.cordovaOauth.login().then((success) => {
-                console.log(JSON.stringify(success));
-            }, (error) => {
-                console.log(error);
+            this.cordovaOauth.login().then(success => {
+                console.log("RESULT: " + JSON.stringify(success));
+            }, error => {
+                console.log("ERROR: ", error);
             });
         });
     }
