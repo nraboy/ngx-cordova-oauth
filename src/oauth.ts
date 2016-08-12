@@ -17,11 +17,11 @@ export class CordovaOauth {
         this._provider = provider;
     }
 
-    login() {
+    login(config, browserOptions) {
         return new Promise((resolve, reject) => {
             if (window.cordova) {
                 if (window.cordova.InAppBrowser) {
-                    this._provider.login().then((success) => {
+                    this._provider.login(config, browserOptions).then((success) => {
                         resolve(success);
                     }, (error) => {
                         reject(error);
@@ -42,5 +42,5 @@ export class CordovaOauth {
  * consistency between the providers.
  */
 export interface IOauthProvider {
-    login(options?: Object): Promise<Object>;
+    login(options: Object, browserOptions?: Object): Promise<Object>;
 }
