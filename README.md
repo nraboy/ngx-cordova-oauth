@@ -40,22 +40,29 @@ Each provider will have it's own class.  At this point, ng2-cordova-oauth is ins
 
 Each web service API acts independently in this library.  However, when configuring each web service, one thing must remain consistent.  You must use **http://localhost/callback** as your callback / redirect URI.  This is because this library will perform tasks when this URL is found.
 
-```javascript
-Facebook({"clientId": String, "appScope": Array<String>, "redirectUri": String, "authType": String});
-Google({"clientId": String, "appScope": Array<String>, "redirectUri": String});
-Imgur({"clientId": String, "redirectUri": String});
-Instagram({"clientId": String, "appScope": Array<String>, "redirectUri": String});
-Meetup({"clientId": String, "redirectUri": String});
-LinkedIn({"clientId": String, "appScope": Array<String>, "state": String, "redirectUri": String});
+Currently it supports several oAuth providers: Facebook, Instagram, LinkedIn, Google, Meetup, Imgur. Example of creating oAuth provider:
+
+```js
+const provider = new Facebook({
+    clientId: string,
+    appScope?: string[],
+    redirectUri?: string,
+    responseType?: string,
+    authType?: string
+});
 ```
 
-Each API call returns a promise.  The success callback will provide a response object and the error
-callback will return a string.  Not all providers use implicit grants.  Any provider that uses an explicit grant will return a `code` rather than an `access_token`.  The `code` must be
+Each API call returns a promise.  The success callback will provide a response object and the error callback will return an `Error` object.  Not all providers use implicit grants.  Any provider that uses an explicit grant will return a `code` rather than an `access_token`.  The `code` must be
 further exchanged server side for an `access_token`.  This is for the safety of your users.
 
-```javascript
-this.cordovaOauth = new CordovaOauth(new Facebook({clientId: "CLIENT_ID_HERE", appScope: ["email"]}));
-this.cordovaOauth.login().then((success) => {
+```js
+const oauth = new CordovaOauth();
+const provider = new Facebook({
+  clientId: "CLIENT_ID_HERE",
+  appScope: ["email"]
+})
+
+oauth.logInVia(provider).then((success) => {
     console.log(JSON.stringify(success));
 }, (error) => {
     console.log(JSON.stringify(error));
@@ -78,14 +85,18 @@ import {CordovaOauth, Facebook, Google, LinkedIn} from "ng2-cordova-oauth/core";
 })
 export class HomePage {
 
-    private cordovaOauth: CordovaOauth;
+    private cordovaOauth: CordovaOauth = new CordovaOauth();
+    private facebookProvider: Facebook = new Facebook({
+      clientId: "CLIENT_ID_HERE",
+      appScope: ["email"]
+    })
 
     constructor(private navCtrl: NavController, private platform: Platform) { }
 
     public facebook() {
-        this.cordovaOauth = new CordovaOauth(new Facebook({clientId: "CLIENT_ID_HERE", appScope: ["email"]}));
+        this.cordovaOauth = new CordovaOauth();
         this.platform.ready().then(() => {
-            this.cordovaOauth.login().then(success => {
+            this.cordovaOauth.logInVia(this.facebookProvider).then(success => {
                 console.log("RESULT: " + JSON.stringify(success));
             }, error => {
                 console.log("ERROR: ", error);
