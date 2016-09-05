@@ -3,14 +3,18 @@
 
 # Angular 2 Cordova Oauth
 
-ng2-cordova-oauth is an Angular 2 Apache Cordova Oauth library.  The purpose of this library is to quickly and easily obtain an access token from various web services to use their APIs.
+ng2-cordova-oauth is an Oauth library which easily integrates in Angular2/Ionic2 or any other WEB or Cordova applications. The purpose of this library is to quickly and easily obtain an access token from various web services to use their APIs.
 
 
 ## Requirements
 
+For Cordova application:
 * Apache Cordova 5+
 * [Apache Cordova InAppBrowser Plugin](http://cordova.apache.org/docs/en/3.0.0/cordova_inappbrowser_inappbrowser.md.html)
 * [Apache Cordova Whitelist Plugin](https://github.com/apache/cordova-plugin-whitelist)
+
+For Web application:
+* webpack, systemjs or amd loaders
 
 
 ## Installing ng2-cordova-oauth Into Your Project
@@ -27,18 +31,43 @@ This will install ng2-cordova-oauth and its dependencies.
 
 ### Injecting:
 
-Once installed, you need to inject the library classes into every class in which you wish to use them.  For example, if you wish to use Facebook oauth in a particular class, it would look something like:
+There are 2 types of entities in the library: Platform (i.e., Cordova, Browser) and Provider (i.e., Facebook, LinkedIn, etc.). Each provider has it's own class.
+You need to inject the Platform class into every class in which you wish to use them. For example, if you wish to use Facebook oauth in a particular class, it would look something like:
 
 ```javascript
-import {CordovaOauth, Facebook, Google} from 'ng2-cordova-oauth/core';
+import {Facebook, Google} from 'ng2-cordova-oauth/core';
+import {OauthBrowser} from 'ng2-cordova-oauth/platform/browser'
+// or
+import {OauthCordova} from 'ng2-cordova-oauth/platform/cordova'
 ```
 
-Each provider will have it's own class.  At this point, ng2-cordova-oauth is installed into your project and is ready for use.
+Alternatively you can use Angular2 Injector in order to provide platform specific service for all components:
+```js
+import {bootstrap} from '@angular/platform-browser-dynamic'
+import {App} from './app.component'
+import {OauthCordova} from 'ng2-cordova-oauth/platform/cordova'
+import {Oauth} from 'ng2-cordova-oauth/oauth'
+
+bootstrap(App, [
+  { provide: Oauth, useClass: OauthCordova }
+])
+
+// and later in component
+
+@Component({
+  selector: 'my-component'
+})
+class MyComponent {
+  constructor(oauth: Oauth) {
+    this.oauth = oauth
+  }
+}
+```
 
 
 ## Using ng2-cordova-oauth In Your Project
 
-Each web service API acts independently in this library.  However, when configuring each web service, one thing must remain consistent.  You must use **http://localhost/callback** as your callback / redirect URI.  This is because this library will perform tasks when this URL is found.
+Each web service API acts independently in this library.  However, when configuring each web service, one thing must remain consistent.
 
 Currently it supports several oAuth providers: Facebook, Instagram, LinkedIn, Google, Meetup, Imgur. Example of creating oAuth provider:
 
@@ -56,7 +85,7 @@ Each API call returns a promise.  The success callback will provide a response o
 further exchanged server side for an `access_token`.  This is for the safety of your users.
 
 ```js
-const oauth = new CordovaOauth();
+const oauth = new OauthCordova();
 const provider = new Facebook({
   clientId: "CLIENT_ID_HERE",
   appScope: ["email"]
@@ -71,21 +100,22 @@ oauth.logInVia(provider).then((success) => {
 
 As of Apache Cordova 5.0.0, the [whitelist plugin](https://blog.nraboy.com/2015/05/whitelist-external-resources-for-use-in-ionic-framework/) must be used in order to reach external web services.
 
-This library will **NOT** work with a web browser, ionic serve, or ionic view.  It **MUST** be used via installing to a device or simulator.
+Now this library can work with a web browser, ionic serve, or ionic view in case if you use `OauthPlatform` service but do not forget to replace it with correct one for cordova project (i.e., `OauthCordova`)
 
 ## A Working Example
 
 ```javascript
 import {Component} from '@angular/core';
 import {NavController, Platform} from 'ionic-angular';
-import {CordovaOauth, Facebook, Google, LinkedIn} from "ng2-cordova-oauth/core";
+import {Facebook, Google, LinkedIn} from "ng2-cordova-oauth/core";
+import {OauthCordova} from 'ng2-cordova-oauth/platform/cordova';
 
 @Component({
     templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
 
-    private cordovaOauth: CordovaOauth = new CordovaOauth();
+    private oauth: OauthCordova = new OauthCordova();
     private facebookProvider: Facebook = new Facebook({
       clientId: "CLIENT_ID_HERE",
       appScope: ["email"]
@@ -94,9 +124,8 @@ export class HomePage {
     constructor(private navCtrl: NavController, private platform: Platform) { }
 
     public facebook() {
-        this.cordovaOauth = new CordovaOauth();
         this.platform.ready().then(() => {
-            this.cordovaOauth.logInVia(this.facebookProvider).then(success => {
+            this.oauth.logInVia(this.facebookProvider).then(success => {
                 console.log("RESULT: " + JSON.stringify(success));
             }, error => {
                 console.log("ERROR: ", error);
@@ -106,6 +135,22 @@ export class HomePage {
 
 }
 ```
+Alternatively you can inject `OauthCordova` in constructor as shown in examples above.
+
+### Custom browser window options
+
+Browser's `window.open` and Cordova's InAppBrowser supports bunch of options which can be passed as a second argument to `logInVia`. For example if you don't know want to clear session cache, or place toolbar at the top for iOS:
+```js
+new OauthCordova().logInVia(facebookProvider, {
+  clearsessioncache: 'no',
+  toolbarposition: 'top'
+})
+```
+
+the list of all available options can be found:
+* https://developer.mozilla.org/en-US/docs/Web/API/Window/open for web apps
+* https://github.com/apache/cordova-plugin-inappbrowser#cordovainappbrowseropen for cordova apps
+
 
 ## Version History
 

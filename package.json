@@ -22,7 +22,10 @@
     ],
     "license": "MIT",
     "scripts": {
-        "tsc": "tsc"
+        "build.commonjs": "tsc",
+        "build.system": "tsc --outFile ng2-cordova-oauth.system.js --module system",
+        "build": "npm run build.system && npm run build.commonjs",
+        "tsc": "npm run build.commonjs"
     },
     "bugs": {
         "url": "https://github.com/nraboy/ng2-cordova-oauth/issues"

@@ -1,8 +1,10 @@
 import { OAuthProvider } from './provider';
-export declare class CordovaOauth {
-    login(provider: OAuthProvider, browserOptions?: Object): Promise<{}>;
-    logInVia(provider: OAuthProvider, browserOptions?: Object): Promise<{}>;
-    protected serializeBrowserOptions(options: Object): string;
+export declare class Oauth {
+    defaultWindowOptions: Object;
+    login(provider: OAuthProvider, windowOptions?: Object): Promise<Object>;
+    logInVia(provider: OAuthProvider, windowOptions?: Object): Promise<Object>;
+    protected serializeOptions(options: Object): string;
+    protected openDialog(url: string, windowParams: Object, options?: any): Promise<any>;
 }
 export interface IOauthProvider {
     parseResponseInUrl(url: string): Object;
