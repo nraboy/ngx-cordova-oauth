@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test me</title>
+  <style>
+    label {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <form name="config" style="float: right">
+    <label><input name="instagramId" placeholder="App Id"> Instagram</label>
+    <label><input name="linkedInId" placeholder="App Id"> Linked In</label>
+    <label><input name="googleId" placeholder="App Id"> Google</label>
+    <label><input name="facebookId" placeholder="App Id"> Facebook</label>
+    <label><input name="imgurId" placeholder="App Id"> Imgur</label>
+    <label><input name="meetupId" placeholder="App Id"> Meetup</label>
+  </form>
+  <form name="social">
+    <label><input type="radio" value="instagram" name="network"> Instagram</label>
+    <label><input type="radio" value="linkedin" name="network"> Linked In</label>
+    <label><input type="radio" value="google" name="network"> Google</label>
+    <label><input type="radio" value="facebook" name="network"> Facebook</label>
+    <label><input type="radio" value="imgur" name="network"> Imgur</label>
+    <label><input type="radio" value="meetup" name="network"> Meetup</label>
+
+    <button type="button" id="login">login</button>
+  </form>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.31/system.js"></script>
+  <script src="../ng2-cordova-oauth.system.js"></script>
+  <script type="text/javascript">
+    Promise.all([
+      System.import('core'),
+      System.import('platform/browser'),
+      System.import('platform/cordova')
+    ]).then(function(modules) {
+      watchConfig()
+
+      return modules
+    }).then(function(modules) {
+      var providers = modules[0]
+      var BrowserOauth = modules[1].OauthBrowser
+      var CordovaOauth = modules[2].OauthCordova
+      var oAuth = window.location.href.indexOf('file:') !== -1 ? new CordovaOauth() : new BrowserOauth()
+      var networks = {};
+      var redirectUri = 'http://localhost:8080';
+      networks.facebook = new providers.Facebook({
+        clientId: document.forms.config.facebookId.value,
+        redirectUri: redirectUri,
+        appScope: ['email'],
+        responseType: 'code'
+      })
+      networks.google = new providers.Google({
+        clientId: document.forms.config.googleId.value,
+        redirectUri: redirectUri,
+        appScope: ['email'],
+        responseType: 'code'
+      })
+      networks.linkedin = new providers.LinkedIn({
+        clientId: document.forms.config.linkedInId.value,
+        redirectUri: redirectUri,
+        responseType: 'code'
+      })
+      networks.instagram = new providers.Instagram({
+        clientId: document.forms.config.instagramId.value,
+        redirectUri: redirectUri,
+        responseType: 'code'
+      })
+      networks.imgur = new providers.Imgur({
+        clientId: document.forms.config.imgurId.value,
+        redirectUri: redirectUri,
+        responseType: 'code'
+      })
+      networks.meetup = new providers.Meetup({
+        clientId: document.forms.config.meetupId.value,
+        redirectUri: redirectUri,
+        responseType: 'code'
+      })
+      document.getElementById('login').addEventListener('click', function() {
+        var providerName = Array.prototype.slice.call(document.forms.social.network)
+          .filter(function(radio) {
+            return radio.checked
+          })[0].value
+        oAuth.logInVia(networks[providerName]).then(function(response) {
+          return console.log(response)
+        }).catch(function(error) {
+          console.error(error, error.response)
+        })
+      })
+    })
+
+    function watchConfig() {
+      var inputs = Array.prototype.slice.call(document.forms.config.querySelectorAll('input'), 0)
+
+      inputs.forEach(function(input) {
+        input.value = localStorage['oauth.' + input.name] || ''
+
+        input.addEventListener('change', function(event) {
+          localStorage['oauth.' + input.name] = input.value
+        }, false)
+      })
+    }
+  </script>
+</body>
+</html>
