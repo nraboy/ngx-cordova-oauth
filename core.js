@@ -9,3 +9,4 @@ __export(require("./provider/imgur"));
 __export(require("./provider/instagram"));
 __export(require("./provider/meetup"));
 __export(require("./provider/linkedin"));
+__export(require("./provider/vk"));
