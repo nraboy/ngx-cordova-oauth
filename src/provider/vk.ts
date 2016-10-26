@@ -1,10 +1,14 @@
 import { OAuthProvider, IOAuthOptions } from "../provider";
+import { utils } from '../utility';
 
 /*
  * Configuration options for using VK oauth
  * @deprecated
  */
 export interface IVKOptions extends IOAuthOptions {
+    v?: string;
+    display?: string;
+    revoke?: string;
 }
 
 export class VK extends OAuthProvider {
@@ -23,7 +27,8 @@ export class VK extends OAuthProvider {
         }
     }
 
-    protected optionsToDialogUrl(options) {
+    protected optionsToDialogUrl(options: any): string {
+        utils.defaults(options, this.defaults);
         let url = super.optionsToDialogUrl(options);
 
         if (options.display) {
@@ -37,7 +42,6 @@ export class VK extends OAuthProvider {
         if (options.revoke) {
             url += `&revoke=${options.revoke}`;
         }
-
         return url;
     }
 }
