@@ -102,6 +102,14 @@ As of Apache Cordova 5.0.0, the [whitelist plugin](https://blog.nraboy.com/2015/
 
 Now this library can work with a web browser, ionic serve, or ionic view in case if you use `OauthPlatform` service but do not forget to replace it with correct one for cordova project (i.e., `OauthCordova`)
 
+### Important Note About Google
+
+Google, as of October 2016, has started blocking requests from web views commonly found in hybrid applications. For this reason, support for Google has been removed from this library.
+
+More information can be found at:
+
+[https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html)
+
 ## A Working Example
 
 ```javascript

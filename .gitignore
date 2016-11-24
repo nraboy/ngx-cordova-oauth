@@ -4,3 +4,8 @@ npm-debug.log
 .DS_Store*
 Thumbs.db*
 ~*
+
+platform
+provider
+*.js
+*.d.ts

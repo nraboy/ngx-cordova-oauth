@@ -35,6 +35,11 @@ var OauthCordova = (function (_super) {
             }
             var browserRef = window.cordova.InAppBrowser.open(url, '_blank', params);
             var exitListener = function () { return reject(new Error("The \"" + options.providerName + "\" sign in flow was canceled")); };
+            browserRef.addEventListener('loaderror', function () {
+                browserRef.removeEventListener('exit', exitListener);
+                browserRef.close();
+                reject(new Error("Error loading login page of \"" + options.providerName + "\""));
+            });
             browserRef.addEventListener('loadstart', function (event) {
                 if (event.url.indexOf(options.resolveOnUri) === 0) {
                     browserRef.removeEventListener('exit', exitListener);
