@@ -16,6 +16,7 @@
     <label><input name="facebookId" placeholder="App Id"> Facebook</label>
     <label><input name="imgurId" placeholder="App Id"> Imgur</label>
     <label><input name="meetupId" placeholder="App Id"> Meetup</label>
+    <label><input name="stravaId" placeholder="App Id"> Strava</label>
   </form>
   <form name="social">
     <label><input type="radio" value="instagram" name="network"> Instagram</label>
@@ -24,6 +25,7 @@
     <label><input type="radio" value="facebook" name="network"> Facebook</label>
     <label><input type="radio" value="imgur" name="network"> Imgur</label>
     <label><input type="radio" value="meetup" name="network"> Meetup</label>
+    <label><input type="radio" value="strava" name="network"> Strava</label>
 
     <button type="button" id="login">login</button>
   </form>
@@ -76,6 +78,11 @@
       networks.meetup = new providers.Meetup({
         clientId: document.forms.config.meetupId.value,
         redirectUri: redirectUri,
+        responseType: 'code'
+      })
+      networks.strava = new providers.Strava({
+        clientId: document.forms.config.stravaId.value,
+        redurectUri: redirectUri,
         responseType: 'code'
       })
       document.getElementById('login').addEventListener('click', function() {
