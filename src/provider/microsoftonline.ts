@@ -1,11 +1,9 @@
 import { OAuthProvider, IOAuthOptions } from "../provider";
 
 /*
- * Configuration options for using Facebook oauth
+ * Configuration options for using Microsoft Online oauth
  */
 export interface IMicrosoftOnlineOptions extends IOAuthOptions {
-    responseType: string = 'code';
-    responseMode: string = 'query';
     authType?: string;
     prompt?: string;
     loginHint?: string;
@@ -41,8 +39,8 @@ export class MicrosoftOnline extends OAuthProvider {
           url += `&domain_hint=${options.domainHint}`;
       }
 
-      url += `&response_type=${options.responseType}`;
-      url += `&response_mode=${options.responseMode}`;
+      url += `&response_type=code`;
+      url += `&response_mode=query`;
 
       return url;
     }
