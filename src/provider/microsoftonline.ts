@@ -14,8 +14,9 @@ export class MicrosoftOnline extends OAuthProvider {
 
     options: IMicrosoftOnlineOptions;
     protected authUrl: string = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize';
+  protected APP_SCOPE_DELIMITER: string = '%20';
     protected defaults: Object = {
-      responseType: 'token'
+      responseType: 'code'
     };
 
     constructor(options: IMicrosoftOnlineOptions = {}) {
@@ -39,7 +40,6 @@ export class MicrosoftOnline extends OAuthProvider {
           url += `&domain_hint=${options.domainHint}`;
       }
 
-      url += `&response_type=code`;
       url += `&response_mode=query`;
 
       return url;
