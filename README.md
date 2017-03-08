@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/nraboy/ng2-cordova-oauth.svg?branch=master)](https://travis-ci.org/nraboy/ng2-cordova-oauth)
 [![PayPal](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://paypal.me/nraboy)
-[![Bitcoin](https://img.shields.io/badge/bitcoin-donate-red.svg)](bitcoin:1M8SKTepmgA2KAUSZc7LpXN1owaky1DjNM)
+[![Bitcoin](https://img.shields.io/badge/bitcoin-donate-red.svg)](bitcoin://1M8SKTepmgA2KAUSZc7LpXN1owaky1DjNM)
 
 # Angular 2 Cordova Oauth
 
@@ -10,7 +10,7 @@ ng2-cordova-oauth is an Oauth library which easily integrates in Angular2/Ionic2
 
 If you found this project useful, please consider donating some Bitcoin to the following address:
 
-[1M8SKTepmgA2KAUSZc7LpXN1owaky1DjNM](bitcoin:1M8SKTepmgA2KAUSZc7LpXN1owaky1DjNM?amount=0.008)
+[1M8SKTepmgA2KAUSZc7LpXN1owaky1DjNM](bitcoin://1M8SKTepmgA2KAUSZc7LpXN1owaky1DjNM?amount=0.008)
 
 ## Requirements
 
