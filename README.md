@@ -75,7 +75,7 @@ class MyComponent {
 
 Each web service API acts independently in this library.  However, when configuring each web service, one thing must remain consistent.
 
-Currently it supports several oAuth providers: Facebook, Instagram, LinkedIn, Google, Meetup, Imgur. Example of creating oAuth provider:
+Currently it supports several oAuth providers: Facebook, Instagram, LinkedIn, Google, Meetup, Imgur, Spotify. Example of creating oAuth provider:
 
 ```js
 const provider = new Facebook({
