@@ -25,7 +25,7 @@ export class Oauth {
         const url = provider.dialogUrl();
 
         return this.openDialog(url, utils.defaults(windowOptions, this.defaultWindowOptions), {
-          resolveOnUri: provider.options.redirectUri,
+          resolveOnUri: provider.options.resolveOnUri || provider.options.redirectUri,
           providerName: provider.name
         }).then((event) => {
           return provider.parseResponseInUrl(event.url);
