@@ -4,7 +4,7 @@ export const utils = {
       const values = url.split(/[?#]{1,2}/)[1].split('&')
 
       return values.reduce((map, value) => {
-        const [paramName, paramValue] = value.split('=')
+        const [paramName, paramValue] = value.split(/=(.+)/)
         map[decodeURIComponent(paramName)] = decodeURIComponent(paramValue)
 
         return map
