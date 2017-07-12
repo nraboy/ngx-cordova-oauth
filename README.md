@@ -44,19 +44,22 @@ You need to inject the Platform class into every class in which you wish to use 
 import {Facebook, Google} from 'ng2-cordova-oauth/core';
 import {OauthBrowser} from 'ng2-cordova-oauth/platform/browser'
 // or
-import {OauthCordova} from 'ng2-cordova-oauth/platform/cordova'
+import {OauthSafariController} from 'ng2-cordova-oauth/platform/safari'
 ```
 
 Alternatively you can use Angular2 Injector in order to provide platform specific service for all components:
 ```js
-import {bootstrap} from '@angular/platform-browser-dynamic'
-import {App} from './app.component'
-import {OauthCordova} from 'ng2-cordova-oauth/platform/cordova'
+import {NgModule} from '@angular/core'
+import {OauthSafariController} from 'ng2-cordova-oauth/platform/safari'
 import {Oauth} from 'ng2-cordova-oauth/oauth'
 
-bootstrap(App, [
-  { provide: Oauth, useClass: OauthCordova }
-])
+@NgModule({
+  // ...
+  providers: [
+    { provide: Oauth, useClass: OauthSafariController }
+  ]
+})
+export class AppModule {}
 
 // and later in component
 
@@ -91,7 +94,7 @@ Each API call returns a promise.  The success callback will provide a response o
 further exchanged server side for an `access_token`.  This is for the safety of your users.
 
 ```js
-const oauth = new OauthCordova();
+const oauth = new OauthSafariController();
 const provider = new Facebook({
   clientId: "CLIENT_ID_HERE",
   appScope: ["email"]
@@ -110,11 +113,11 @@ Now this library can work with a web browser, ionic serve, or ionic view in case
 
 ### Important Note About Google
 
-Google, as of October 2016, has started blocking requests from web views commonly found in hybrid applications. For this reason, support for Google has been removed from this library.
+Google, as of October 2016, has started blocking requests from web views commonly found in hybrid applications.
+More information can be found at: [https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html)
 
-More information can be found at:
-
-[https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html](https://developers.googleblog.com/2016/08/modernizing-oauth-interactions-in-native-apps.html)
+For this reason, you can't use `OauthCordova` strategy which is built on top of `cordova-inappbrowser` plugin.
+In order to provide better user experience and compatibility with Google Oauth, please use `OauthSafariController` which is built on top of [cordova-plugin-safariviewcontroller](https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller)
 
 ## A Working Example
 
@@ -122,14 +125,15 @@ More information can be found at:
 import {Component} from '@angular/core';
 import {NavController, Platform} from 'ionic-angular';
 import {Facebook, Google, LinkedIn} from "ng2-cordova-oauth/core";
-import {OauthCordova} from 'ng2-cordova-oauth/platform/cordova';
+import {Oauth} from 'ng2-cordova-oauth/oauth'
+import {OauthSafariController} from 'ng2-cordova-oauth/platform/safari';
 
 @Component({
     templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
 
-    private oauth: OauthCordova = new OauthCordova();
+    private oauth: Oauth = new OauthSafariController();
     private facebookProvider: Facebook = new Facebook({
       clientId: "CLIENT_ID_HERE",
       appScope: ["email"]
@@ -149,7 +153,50 @@ export class HomePage {
 
 }
 ```
-Alternatively you can inject `OauthCordova` in constructor as shown in examples above.
+Alternatively you can inject `OauthSafariController` in constructor as shown in examples above.
+
+### Configure application to work with `OauthSafariController`
+
+`OauthSafariController` uses Safari View Controller for iOS and Custom Chrome Tabs for Android. They provide better UX and security than WebView based options (like `cordova-inappbrowser`) but also requires a bit more setup.
+So, in order to use `OauthSafariController` you need to install 2 additional cordova plugins:
+* https://github.com/ionic-team/ionic-plugin-deeplinks
+* https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller
+
+Then you need to configure Applinks or custom app scheme. You can find how to do this on [ionic-plugin-deeplins README](https://github.com/ionic-team/ionic-plugin-deeplinks#ios-configuration).
+In general the flow is this:
+1. User clicks on button "Login via ..."
+2. `OauthSafariController` opens Safari View Controller with url to oauth provider login
+3. If user has been logged in before and has just put his credentials, oauth provider redirects user to specified redirect uri parameter
+4. `OauthSafariController` listens to `/login` deeplink and receives notification from Safari View Controller
+5. `OauthSafariController` parses url and pass everything back (`code` or `auth_token`) to main application logic
+
+If you can't setup Applinks/Universal links for some reason, you will need to do extra coding.
+1. You need to add extra parameter in your redirect uri (e.g., `mobile=1`)
+2. Your website should respond with valid HTML on `/login` url
+3. You need to add extra code in your `login.html` (or `index.html` depends on which file/template is displayed at `/login` url):
+```html
+<html>
+  <head>
+    <script type="text/javascript">
+       if (location.pathname.indexOf('/login') === 0 && location.search.indexOf('?mobile=1') === 0) {
+         window.location = 'YOUR_APP_SCHEME://' + location.pathname + location.search
+       }
+    </script>
+  </head>
+</html>
+```
+
+This way your website will redirect user back into application.
+
+If you want to change `/login` url to something else in your app, then you can extend `OauthSafariController` and override `setupDeeplinks` method:
+```js
+class MyOauth extends OauthSafariController {
+  setupDeeplinks(options) {
+    options.loginPath = '/my_custom_login_url'
+    return super.setupDeeplinks(options)
+  }
+}
+```
 
 ### Custom browser window options
 
@@ -164,7 +211,7 @@ new OauthCordova().logInVia(facebookProvider, {
 the list of all available options can be found:
 * https://developer.mozilla.org/en-US/docs/Web/API/Window/open for web apps
 * https://github.com/apache/cordova-plugin-inappbrowser#cordovainappbrowseropen for cordova apps
-
+* https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller#4-usage for Safari View Controller
 
 ## Version History
 
