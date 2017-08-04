@@ -5,7 +5,7 @@ npm-debug.log
 Thumbs.db*
 ~*
 
-platform
-provider
+/platform
+/provider
 *.js
 *.d.ts
