@@ -21,6 +21,7 @@
         "src/provider/meetup.ts",
         "src/provider/spotify.ts",
         "src/provider/linkedin.ts",
+        "src/provider/thingiverse.ts",
         "src/platform/browser.ts",
         "src/platform/cordova.ts",
         "node_modules/typescript/lib/lib.es6.d.ts"
