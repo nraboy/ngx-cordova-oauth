@@ -49,7 +49,7 @@
       var CordovaOauth = modules[2].OauthCordova
       var oAuth = window.location.href.indexOf('file:') !== -1 ? new CordovaOauth() : new BrowserOauth()
       var networks = {};
-      var redirectUri = 'http://127.0.0.1:5500';
+      var redirectUri = 'http://localhost:8080';
       networks.facebook = new providers.Facebook({
         clientId: document.forms.config.facebookId.value,
         redirectUri: redirectUri,
