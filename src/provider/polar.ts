@@ -6,7 +6,8 @@ export class Polar extends OAuthProvider {
     super(options);
     this.authUrl = 'https://flow.polar.com/oauth2/authorization';
     this.defaults = {
-      responseType: 'code'
+      responseType: 'code',
+      excludeRedirectUri: true
     };
   }
 }

@@ -50,8 +50,8 @@ export class OAuthProvider implements IOauthProvider {
         utils.defaults(options, this.defaults)
         let url = `${this.authUrl}?client_id=${options.clientId}`;
 
-        if (options.redirectUri) {
-            url += `&redirect_uri=${options.redirectUri}`;
+        if (!options.excludeRedirectUri) {
+            url = + "&redirect_uri=" + options.redirectUri;
         }
 
         if (options.appScope) {
