@@ -9,6 +9,7 @@ export interface IOAuthOptions {
     redirectUri?: string;
     responseType?: string;
     state?: string;
+    excludeRedirectUri?: boolean
 }
 
 const DEFAULTS = {
@@ -51,7 +52,7 @@ export class OAuthProvider implements IOauthProvider {
         let url = `${this.authUrl}?client_id=${options.clientId}`;
 
         if (!options.excludeRedirectUri) {
-            url = + "&redirect_uri=" + options.redirectUri;
+            url += "&redirect_uri=" + options.redirectUri;
         }
 
         if (options.appScope) {
