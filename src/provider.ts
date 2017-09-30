@@ -12,7 +12,7 @@ export interface IOAuthOptions {
 }
 
 const DEFAULTS = {
-  redirectUri: 'http://localhost/callback'
+    redirectUri: 'http://localhost/callback'
 };
 
 export class OAuthProvider implements IOauthProvider {
@@ -30,25 +30,29 @@ export class OAuthProvider implements IOauthProvider {
     }
 
     parseResponseInUrl(url) {
-      const response = utils.parseQueryString(url);
+        const response = utils.parseQueryString(url);
 
-      if (!this.isValid(response)) {
-        const error = new Error(`Problem authenticating with ${this.name}`);
+        if (!this.isValid(response)) {
+            const error = new Error(`Problem authenticating with ${this.name}`);
 
-        Object.defineProperty(error, 'response', { value: response });
-        throw error;
-      }
+            Object.defineProperty(error, 'response', { value: response });
+            throw error;
+        }
 
-      return response;
+        return response;
     }
 
     dialogUrl() {
-      return this.optionsToDialogUrl(this.options);
+        return this.optionsToDialogUrl(this.options);
     }
 
     protected optionsToDialogUrl(options: any): string {
         utils.defaults(options, this.defaults)
-        let url = `${this.authUrl}?client_id=${options.clientId}&redirect_uri=${options.redirectUri}`;
+        let url = `${this.authUrl}?client_id=${options.clientId}`;
+
+        if (options.redirectUri) {
+            url += `&redirect_uri=${options.redirectUri}`;
+        }
 
         if (options.appScope) {
             url += `&scope=${this.serializeAppScope(options.appScope)}`;
@@ -66,7 +70,7 @@ export class OAuthProvider implements IOauthProvider {
     }
 
     protected serializeAppScope(scope) {
-      return typeof scope.join === 'function' ? scope.join(this.APP_SCOPE_DELIMITER) : scope;
+        return typeof scope.join === 'function' ? scope.join(this.APP_SCOPE_DELIMITER) : scope;
     }
 
     protected isValid(response) {
