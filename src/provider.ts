@@ -7,6 +7,7 @@ export interface IOAuthOptions {
     clientId?: string;
     appScope?: string[];
     redirectUri?: string;
+    resolveOnUri?: string;
     responseType?: string;
     state?: string;
 }
@@ -48,7 +49,7 @@ export class OAuthProvider implements IOauthProvider {
 
     protected optionsToDialogUrl(options: any): string {
         utils.defaults(options, this.defaults)
-        let url = `${this.authUrl}?client_id=${options.clientId}&redirect_uri=${options.redirectUri}`;
+        let url = `${this.authUrl}?client_id=${options.clientId}&redirect_uri=${encodeURIComponent(options.redirectUri)}`;
 
         if (options.appScope) {
             url += `&scope=${this.serializeAppScope(options.appScope)}`;
