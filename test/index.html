@@ -17,6 +17,7 @@
     <label><input name="imgurId" placeholder="App Id"> Imgur</label>
     <label><input name="meetupId" placeholder="App Id"> Meetup</label>
     <label><input name="stravaId" placeholder="App Id"> Strava</label>
+    <label><input name="thingiverseId" placeholder="App Id"> Thingiverse</label>
   </form>
   <form name="social">
     <label><input type="radio" value="instagram" name="network"> Instagram</label>
@@ -26,6 +27,7 @@
     <label><input type="radio" value="imgur" name="network"> Imgur</label>
     <label><input type="radio" value="meetup" name="network"> Meetup</label>
     <label><input type="radio" value="strava" name="network"> Strava</label>
+    <label><input type="radio" value="thingiverse" name="network"> Thingiverse</label>
 
     <button type="button" id="login">login</button>
   </form>
@@ -83,6 +85,11 @@
       networks.strava = new providers.Strava({
         clientId: document.forms.config.stravaId.value,
         redurectUri: redirectUri,
+        responseType: 'code'
+      })
+      networks.thingiverse = new providers.Thingiverse({
+        clientId: document.forms.config.thingiverseId.value,
+        redirectUri: redirectUri,
         responseType: 'code'
       })
       document.getElementById('login').addEventListener('click', function() {
