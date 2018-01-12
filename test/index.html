@@ -17,6 +17,7 @@
     <label><input name="imgurId" placeholder="App Id"> Imgur</label>
     <label><input name="meetupId" placeholder="App Id"> Meetup</label>
     <label><input name="stravaId" placeholder="App Id"> Strava</label>
+    <label><input name="identityServerId" placeholder="App Id"> Identity Server</label>
   </form>
   <form name="social">
     <label><input type="radio" value="instagram" name="network"> Instagram</label>
@@ -26,6 +27,7 @@
     <label><input type="radio" value="imgur" name="network"> Imgur</label>
     <label><input type="radio" value="meetup" name="network"> Meetup</label>
     <label><input type="radio" value="strava" name="network"> Strava</label>
+    <label><input type="radio" value="identityServer" name="network"> Identity Server</label>
 
     <button type="button" id="login">login</button>
   </form>
@@ -82,14 +84,22 @@
       })
       networks.strava = new providers.Strava({
         clientId: document.forms.config.stravaId.value,
-        redurectUri: redirectUri,
+        redirectUri: redirectUri,
         responseType: 'code'
+      })
+      networks.identityServer = new providers.IdentityServer("http://localhost:5000/connect/authorize", {
+        clientId: document.forms.config.identityServerId.value,
+        redirectUri: redirectUri,
+        appScope: ['openid profile'],
+        responseType: 'id_token token',
+        nonce: 'xyz'
       })
       document.getElementById('login').addEventListener('click', function() {
         var providerName = Array.prototype.slice.call(document.forms.social.network)
           .filter(function(radio) {
             return radio.checked
           })[0].value
+          console.log(networks[providerName]);
         oAuth.logInVia(networks[providerName]).then(function(response) {
           return console.log(response)
         }).catch(function(error) {
